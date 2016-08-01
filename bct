@@ -1,0 +1,29 @@
+#! /bin/bash
+##
+##  Script to udp broadcast anything typed on stdin to the given port 
+##       tested on Ubuntu 16.04.1 LTS
+##
+##  Usage: bct portNumber 
+##       e.g., bct 1234
+##   
+##  Important: Needs socat to work; run "sudo apt-get install socat" first. 
+##   
+##
+##  Copyright (c) 2016, Autonomous Networks Research Group. All rights reserved.
+##     contributor: Bhaskar Krishnamachari
+##     read license file in main directory for more details
+##
+
+command -v socat >/dev/null 2>&1 || { echo >&2 "Error: required program 'socat' not installed. Please run 'sudo apt-get install socat' first";  exit 1;} 
+
+if [ "$#" != 1 ]; then
+   echo "Usage: bct portNumber" >&2
+   exit 1
+fi
+
+DEV=$(ifconfig -a |grep "Link encap"|grep wl|head -n1|cut -f 1 -d ' ')
+BCAST=$(ip a s dev $DEV| grep inet | awk '/inet / {print $2}' | cut -f 1-3 -d '.')".255"
+echo "enter messages to broadcast to" $BCAST " on port" $1
+echo  "  ctrl-c to terminate"
+sudo socat stdin UDP4-DATAGRAM:$BCAST:$1,so-broadcast
+

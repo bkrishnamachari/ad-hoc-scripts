@@ -1,0 +1,26 @@
+#! /bin/bash
+##
+##  Script to listen to broadcasted udp messages on stdout
+##       tested on Ubuntu 16.04.1 LTS
+##
+##  Usage: bcl portNumber
+##       e.g., bcl 1234
+##
+##  Important: Needs socat to work; run "sudo apt-get install socat" first.
+##
+##
+##  Copyright (c) 2016, Autonomous Networks Research Group. All rights reserved.
+##     contributor: Bhaskar Krishnamachari
+##     read license file in main directory for more details
+##
+
+command -v socat >/dev/null 2>&1 || { echo >&2 "Error: required program 'socat' not installed. run 'sudo apt-get install socat' first";  exit 1;}
+
+if [ "$#" != 1 ]; then
+   echo "Usage: bcl portNumber" >&2
+   exit 1
+fi
+
+echo "listening to broadcast messages on port number" $1
+echo " ctrl-c to terminate "
+sudo socat -u udp-recv:$1 stdout

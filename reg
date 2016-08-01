@@ -1,0 +1,17 @@
+#! /bin/bash
+##
+##  Put this machine back on regular wifi network
+##   from ad-hoc mode, by restarting the network-manager
+##
+##       tested on Ubuntu 16.04.1 LTS
+##
+## Usage: reg
+##
+##  Copyright (c) 2016, Autonomous Networks Research Group. All rights reserved.
+##     contributor: Bhaskar Krishnamachari 
+##     read license file in main directory for more details
+##
+
+echo "restarting network-manager..."
+sudo service network-manager start
+sleep 2
