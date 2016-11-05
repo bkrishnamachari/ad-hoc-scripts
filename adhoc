@@ -24,6 +24,7 @@ if [ ! -z $2 ]; then SSID=$2; else SSID=testnet; fi
 
 DEV=$(ifconfig -a |grep "Link encap"|grep wl|head -n1|cut -f 1 -d ' ')
 
+echo "caution: this script may only work if you have just one wireless interface"
 echo "switching to ad hoc mode..."
 sudo service network-manager stop
 sleep 1
